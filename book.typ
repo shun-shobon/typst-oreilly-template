@@ -103,29 +103,23 @@
   v(15%)
 }
 
-#show heading.where(level: 2): block.with(
-  width: 100%,
-  stroke: (
-    left: (thickness: 6pt, paint: luma(140), cap: "butt"),
-    bottom: (thickness: 0.8pt, paint: luma(140), cap: "butt"),
-  ),
-  outset: (left: -2.5pt),
-  inset: (
-    top: 5pt,
-    bottom: 6pt,
-    left: 9pt,
-  ),
-)
-
-#show heading.where(level: 3): block.with(
-  width: 100%,
-  stroke: (
-    bottom: (thickness: 0.8pt, paint: luma(140), cap: "butt"),
-  ),
-  inset: (
-    bottom: 4pt,
+#show heading.where(level: 2): it => {
+  grid(
+    columns: (auto, 1fr),
+    gutter: 1em,
+    counter(heading).display(),
+    it.body
   )
-)
+}
+
+#show heading.where(level: 3): it => {
+  grid(
+    columns: (auto, 1fr),
+    gutter: 1em,
+    counter(heading).display(),
+    it.body
+  )
+}
 
 #show heading: it => {
   it
@@ -173,6 +167,10 @@
 #lorem(100)
 
 == 中くらいの見出し
+
+#lorem(100)
+
+== すげええええええええええええ長い見出しいいいいいいいいいいいいいいいいいい
 
 #lorem(100)
 
