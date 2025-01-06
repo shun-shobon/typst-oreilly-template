@@ -26,25 +26,7 @@
         bottom: 2pt,
       )
     )[
-      #if calc.odd(here().page()) {
-        align(right)[
-          #box(
-            inset: (y: 2pt, right: 0.5em),
-            [#if current-chapter.location().page() != here().page() and current-section != none {
-              let c = counter(heading).at(current-section.location())
-              [#c.at(0).#c.at(1)]
-              h(1em)
-              current-section.body
-            }]
-          )
-          #box(
-            width: 2.5em,
-            stroke: (left: (thickness: 1.5pt, cap: "butt")),
-            inset: (y: 2pt),
-            text(weight: "bold", font: "BIZ UDGothic", [#here().page()])
-          )
-        ]
-      } else {
+      #if calc.even(here().page()) {
         align(left)[
           #box(
             width: 2.5em,
@@ -54,12 +36,28 @@
           )
           #box(
             inset: (y: 2pt, left: 0.5em),
-            [#if current-chapter != none {
-              let c = counter(heading).at(current-chapter.location())
-              [#c.at(0)章]
+            if current-chapter != none {
+              numbering("1章", ..counter(heading).at(current-chapter.location()))
               h(1em)
               current-chapter.body
-            }]
+            }
+          )
+        ]
+      } else {
+        align(right)[
+          #box(
+            inset: (y: 2pt, right: 0.5em),
+            if current-chapter.location().page() != here().page() and current-section != none {
+              numbering("1.1", ..counter(heading).at(current-section.location()))
+              h(1em)
+              current-section.body
+            }
+          )
+          #box(
+            width: 2.5em,
+            stroke: (left: (thickness: 1.5pt, cap: "butt")),
+            inset: (y: 2pt),
+            text(weight: "bold", font: "BIZ UDGothic", [#here().page()])
           )
         ]
       }
@@ -105,20 +103,34 @@
 }
 
 #show heading.where(level: 2): it => {
-  grid(
-    columns: (auto, 1fr),
-    gutter: 1em,
-    counter(heading).display(),
-    it.body
+  set text(size: 11pt)
+  set par(leading: 0.4em)
+
+  block(
+    above: 2.2em,
+    below: 1em,
+    grid(
+      columns: (auto, 1fr),
+      gutter: 1em,
+      counter(heading).display(),
+      it.body
+    )
   )
 }
 
 #show heading.where(level: 3): it => {
-  grid(
-    columns: (auto, 1fr),
-    gutter: 1em,
-    counter(heading).display(),
-    it.body
+  set text(size: 10pt)
+  set par(leading: 0.4em)
+
+  block(
+    above: 1.8em,
+    below: 0.8em,
+    grid(
+      columns: (auto, 1fr),
+      gutter: 1em,
+      counter(heading).display(),
+      it.body
+    )
   )
 }
 
