@@ -14,8 +14,8 @@
   header: context {
     set text(font: sans-serif, size: 8pt)
 
-    let current-chapter = query(selector(heading.where(level: 1)).before(here())).at(-1, default: none)
-    let current-section = query(selector(heading.where(level: 2)).before(here())).at(-1, default: none)
+    let current-chapter = query(heading.where(level: 1)).filter(it => it.location().page() <= here().page()).at(-1, default: none)
+    let current-section = query(heading.where(level: 2)).filter(it => it.location().page() <= here().page()).at(-1, default: none)
 
     block(
       width: 100%,
@@ -30,8 +30,8 @@
         align(right)[
           #box(
             inset: (y: 2pt, right: 0.5em),
-            [#if current-section != none {
-              let c = counter(heading).get()
+            [#if current-chapter.location().page() != here().page() and current-section != none {
+              let c = counter(heading).at(current-section.location())
               [#c.at(0).#c.at(1)]
               h(1em)
               current-section.body
@@ -55,7 +55,8 @@
           #box(
             inset: (y: 2pt, left: 0.5em),
             [#if current-chapter != none {
-              [#counter(heading).get().at(0)章]
+              let c = counter(heading).at(current-chapter.location())
+              [#c.at(0)章]
               h(1em)
               current-chapter.body
             }]
@@ -170,7 +171,7 @@
 
 #lorem(100)
 
-== すげええええええええええええ長い見出しいいいいいいいいいいいいいいいいいい
+== すげええええええええええええ長い見出しいいいいいいいいいいいい
 
 #lorem(100)
 
@@ -178,7 +179,11 @@
 
 #lorem(100)
 
+=== ちっちゃい見出し2
+
 #lorem(100)
+
+=== ちっちゃい見出し3
 
 #lorem(100)
 
