@@ -93,7 +93,7 @@
 
   v(3%)
 
-  text(fill: luma(100))[#context counter(heading).get().at(0)章]
+  text(fill: luma(100))[#numbering("1章", ..counter(heading).at(it.location()))]
 
   v(-12pt)
 
