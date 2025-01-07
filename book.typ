@@ -9,6 +9,7 @@
   ),
   body
 ) = {
+  // 全体のページ設定
   set page(
     paper: "a5",
     binding: left,
@@ -72,6 +73,7 @@
     }
   )
 
+  // フォント
   set text(
     lang: "ja",
     font: fonts.serif,
@@ -79,6 +81,7 @@
   )
   show raw: set text(font: fonts.mono)
 
+  // 段落の空白を調整
   set par(
     leading: 0.8em,
     justify: true,
@@ -86,20 +89,26 @@
     first-line-indent: 1em,
   )
 
+  // 見出しのナンバリングとフォントを設定
   set heading(numbering: "1.1.1")
   show heading: set text(font: fonts.sans-serif)
 
+  // 章の見出し
   show heading.where(level: 1): it => {
+    // 常に右ページから始まる
     {
+      // 空白ページは何も表示しない
       set page(header: {})
       pagebreak(to: "odd", weak: true)
     }
 
+    // 右寄せにする
     set align(right)
     set text(size: 20pt)
 
     v(3%)
 
+    // 章番号を表示
     text(fill: luma(100))[#numbering("1章", ..counter(heading).at(it.location()))]
 
     v(-12pt)
@@ -109,10 +118,12 @@
     v(15%)
   }
 
+  // 節の見出し
   show heading.where(level: 2): it => {
     set text(size: 11pt)
     set par(leading: 0.4em)
 
+    // gridでナンバリングとテキストの余白を広げる
     block(
       above: 2.2em,
       below: 1em,
@@ -125,6 +136,8 @@
     )
   }
 
+  // 項の見出し
+  // 節とほぼ同じ
   show heading.where(level: 3): it => {
     set text(size: 10pt)
     set par(leading: 0.4em)
@@ -141,6 +154,8 @@
     )
   }
 
+  // 見出しの後の段落が字下げされない問題を修正
+  // 空の段落を入れる
   show heading: it => {
     it
     par(text(size: 0pt, ""))
@@ -148,16 +163,16 @@
   }
 
 
+  // タイトルページ
   {
     set page(header: {})
 
     block(
       width: 100%,
       height: 100%,
+      inset: (y: 10%),
     )[
       #set text(font: fonts.sans-serif, weight: "bold")
-
-      #v(10%)
 
       #set align(center + top)
       #text(size: 24pt, title)
@@ -166,12 +181,12 @@
 
       #set align(center + bottom)
       #text(size: 16pt, author)
-
-      #v(10%)
     ]
   }
 
+  // ページ番号をリセット
   counter(page).update(1)
 
+  // 本文
   body
 }
