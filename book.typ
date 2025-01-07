@@ -1,4 +1,5 @@
 #let layout(
+  body,
   title: [],
   subtitle: [],
   author: [],
@@ -7,7 +8,6 @@
     serif: (),
     mono: (),
   ),
-  body
 ) = {
   // 全体のページ設定
   set page(
@@ -153,6 +153,8 @@
     it
   }
 
+  show heading.where(level: 2): set heading(outlined: false)
+
   // 見出しの後の段落が字下げされない問題を修正
   // 空の段落を入れる
   show heading: it => {
@@ -163,18 +165,24 @@
 
   // 目次のスタイル設定
   show outline.entry.where(level: 1): it => {
-    set text(font: "Hiragino Kaku Gothic ProN", weight: "bold")
     v(2em, weak: true)
+
+    // ナンバリングがない場合は節と同じスタイル
+    if it.element.numbering == none {
+      h(0.5em)
+      it
+      return
+    }
+
+    set text(font: "Hiragino Kaku Gothic ProN", weight: "bold")
     it
   }
   show outline.entry.where(level: 2): it => {
     h(0.5em)
-
     it
   }
   show outline.entry.where(level: 3): it => {
     h(2.8em)
-
     it
   }
   set outline(depth: 3)
@@ -203,9 +211,11 @@
   body
 }
 
-#let document(body) = {
+#let document(outlined: true, body) = {
   // 目次
-  outline()
+  if outlined {
+    outline()
+  }
 
   // ページ番号と見出しのナンバリングを変更
   set page(numbering: "1")
@@ -217,6 +227,8 @@
       numbering("1.1.1 ", ..nums)
     }
   })
+
+  show heading.where(level: 2): set heading(outlined: true)
 
   // ページ番号をリセット
   counter(page).update(1)
