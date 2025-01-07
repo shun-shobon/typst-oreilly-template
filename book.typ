@@ -92,7 +92,6 @@
   )
 
   // 見出しのナンバリングとフォントを設定
-  set heading(numbering: "1.1.1")
   show heading: set text(font: fonts.sans-serif)
 
   // 章の見出し
@@ -111,8 +110,12 @@
     v(3%)
 
     // 章番号を表示
-    text(fill: luma(100))[#numbering("1章", ..counter(heading).at(it.location()))]
-
+    if counter(heading).at(it.location()).at(0) != 0 {
+      text(fill: luma(100))[#numbering("1章", ..counter(heading).at(it.location()))]
+    } else {
+      // ナンバリングがない場合はダミーを入れる
+      text("")
+    }
     v(-12pt)
 
     [#it.body]
@@ -125,16 +128,27 @@
     set text(size: 11pt)
     set par(leading: 0.4em)
 
-    // gridでナンバリングとテキストの余白を広げる
-    block(
-      above: 2.2em,
-      below: 1em,
-      grid(
+    let body
+    if counter(heading).at(it.location()).at(0) == 0 {
+      body = block(
+        above: 2.2em,
+        below: 1em,
+        it.body,
+      )
+    } else {
+      body = grid(
         columns: (auto, 1fr),
         gutter: 1em,
         counter(heading).display(),
         it.body
       )
+    }
+
+    // gridでナンバリングとテキストの余白を広げる
+    block(
+      above: 2.2em,
+      below: 1em,
+      body,
     )
   }
 
@@ -144,15 +158,22 @@
     set text(size: 10pt)
     set par(leading: 0.4em)
 
-    block(
-      above: 1.8em,
-      below: 0.8em,
-      grid(
+    let body
+    if counter(heading).at(it.location()).at(0) == 0 {
+      body = it.body
+    } else {
+      body = grid(
         columns: (auto, 1fr),
         gutter: 1em,
         counter(heading).display(),
         it.body
       )
+    }
+
+    block(
+      above: 1.8em,
+      below: 0.8em,
+      body,
     )
   }
 
@@ -164,6 +185,7 @@
     v(-0.8em)
   }
 
+  set page(numbering: "i")
 
   // タイトルページ
   {
@@ -186,9 +208,17 @@
     ]
   }
 
+  body
+}
+
+#let begin-document(body) = {
+  // 目次
+  outline()
+
   // ページ番号をリセット
+  set page(numbering: "1")
+  set heading(numbering: "1.1.1")
   counter(page).update(1)
 
-  // 本文
   body
 }
