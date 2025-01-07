@@ -19,6 +19,7 @@
       inside: 15mm,
       outside: 15mm,
     ),
+    numbering: "1",
     header: context {
       set text(font: fonts.sans-serif, size: 8pt)
 
@@ -40,7 +41,7 @@
               width: 2.5em,
               stroke: (right: (thickness: 1.5pt, cap: "butt")),
               inset: (y: 2pt),
-              text(weight: "bold", font: fonts.mono, [#here().page()])
+              text(weight: "bold", font: fonts.mono, numbering(here().page-numbering(), here().page())),
             )
             #box(
               inset: (y: 2pt, left: 0.5em),
@@ -65,12 +66,13 @@
               width: 2.5em,
               stroke: (left: (thickness: 1.5pt, cap: "butt")),
               inset: (y: 2pt),
-              text(weight: "bold", font: fonts.mono, [#here().page()])
+              text(weight: "bold", font: fonts.mono, numbering(here().page-numbering(), here().page())),
             )
           ]
         }
       ]
-    }
+    },
+    footer: {},
   )
 
   // フォント
