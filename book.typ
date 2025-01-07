@@ -19,7 +19,7 @@
       inside: 15mm,
       outside: 15mm,
     ),
-    numbering: "1",
+    numbering: "i",
     header: context {
       set text(font: fonts.sans-serif, size: 8pt)
 
@@ -39,15 +39,17 @@
           align(left)[
             #box(
               width: 2.5em,
-              stroke: (right: (thickness: 1.5pt, cap: "butt")),
+              stroke: (right: (thickness: 1.2pt, cap: "butt")),
               inset: (y: 2pt),
               text(weight: "bold", font: fonts.mono, numbering(here().page-numbering(), here().page())),
             )
             #box(
               inset: (y: 2pt, left: 0.5em),
               if current-chapter != none {
-                numbering("1章", ..counter(heading).at(current-chapter.location()))
-                h(1em)
+                if current-chapter.numbering != none {
+                  numbering(current-chapter.numbering, ..counter(heading).at(current-chapter.location()))
+                  h(0.5em)
+                }
                 current-chapter.body
               }
             )
@@ -56,15 +58,22 @@
           align(right)[
             #box(
               inset: (y: 2pt, right: 0.5em),
-              if current-chapter.location().page() != here().page() and current-section != none {
-                numbering("1.1", ..counter(heading).at(current-section.location()))
-                h(1em)
+              // 章があるページではなく、節が現在の章と同じで、かつ節がある場合
+              if
+                current-chapter.location().page() != here().page() and
+                current-section != none and
+                counter(heading).at(current-chapter.location()).at(0) == counter(heading).at(current-section.location()).at(0)
+              {
+                if current-section.numbering != none {
+                  numbering(current-section.numbering, ..counter(heading).at(current-section.location()))
+                  h(0.5em)
+                }
                 current-section.body
               }
             )
             #box(
               width: 2.5em,
-              stroke: (left: (thickness: 1.5pt, cap: "butt")),
+              stroke: (left: (thickness: 1.2pt, cap: "butt")),
               inset: (y: 2pt),
               text(weight: "bold", font: fonts.mono, numbering(here().page-numbering(), here().page())),
             )
@@ -127,29 +136,9 @@
   show heading.where(level: 2): it => {
     set text(size: 11pt)
     set par(leading: 0.4em)
+    set block(above: 2.2em, below: 1em)
 
-    let body
-    if counter(heading).at(it.location()).at(0) == 0 {
-      body = block(
-        above: 2.2em,
-        below: 1em,
-        it.body,
-      )
-    } else {
-      body = grid(
-        columns: (auto, 1fr),
-        gutter: 1em,
-        counter(heading).display(),
-        it.body
-      )
-    }
-
-    // gridでナンバリングとテキストの余白を広げる
-    block(
-      above: 2.2em,
-      below: 1em,
-      body,
-    )
+    it
   }
 
   // 項の見出し
@@ -157,24 +146,9 @@
   show heading.where(level: 3): it => {
     set text(size: 10pt)
     set par(leading: 0.4em)
+    set block(above: 1.8em, below: 0.8em)
 
-    let body
-    if counter(heading).at(it.location()).at(0) == 0 {
-      body = it.body
-    } else {
-      body = grid(
-        columns: (auto, 1fr),
-        gutter: 1em,
-        counter(heading).display(),
-        it.body
-      )
-    }
-
-    block(
-      above: 1.8em,
-      below: 0.8em,
-      body,
-    )
+    it
   }
 
   // 見出しの後の段落が字下げされない問題を修正
@@ -182,10 +156,8 @@
   show heading: it => {
     it
     par(text(size: 0pt, ""))
-    v(-0.8em)
+    v(-1em)
   }
-
-  set page(numbering: "i")
 
   // タイトルページ
   {
@@ -215,56 +187,18 @@
   // 目次
   show outline.entry.where(level: 1): it => {
     set text(font: "Hiragino Kaku Gothic ProN", weight: "bold")
-
     v(2em, weak: true)
-
-    let c = counter(heading).at(it.element.location())
-    if c.at(0) != 0 {
-      numbering("1章", ..c)
-      h(1em)
-    }
-
-    it.element.body
-
-    h(2pt)
-
-    box(width: 1fr, repeat[.])
-
-    h(2pt)
-
-    it.page
+    it
   }
   show outline.entry.where(level: 2): it => {
-    h(0.4em)
+    h(0.5em)
 
-    let c = counter(heading).at(it.element.location())
-    if c.at(0) != 0 {
-      numbering("1.1", ..c)
-      h(1em)
-    }
-
-    it.element.body
-
-    h(2pt)
-    box(width: 1fr, repeat[.])
-    h(2pt)
-    it.page
+    it
   }
   show outline.entry.where(level: 3): it => {
-    h(3em)
+    h(2.8em)
 
-    let c = counter(heading).at(it.element.location())
-    if c.at(0) != 0 {
-      numbering("1.1", ..c)
-      h(1em)
-    }
-
-    it.element.body
-
-    h(2pt)
-    box(width: 1fr, repeat[.])
-    h(2pt)
-    it.page
+    it
   }
 
   outline(
@@ -273,7 +207,14 @@
 
   // ページ番号をリセット
   set page(numbering: "1")
-  set heading(numbering: "1.1.1")
+  set heading(numbering: (..args) => {
+    let nums = args.pos()
+    if nums.len() == 1 {
+      numbering("1章  ", ..nums)
+    } else {
+      numbering("1.1.1 ", ..nums)
+    }
+  })
   counter(page).update(1)
 
   body
