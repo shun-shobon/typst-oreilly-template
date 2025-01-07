@@ -117,10 +117,12 @@
     set text(size: 20pt)
 
     v(3%)
-
     // 章番号を表示
     if counter(heading).at(it.location()).at(0) != 0 {
-      text(fill: luma(100))[#numbering(heading.numbering, ..counter(heading).at(it.location()))]
+      text(
+        fill: luma(100),
+        numbering(heading.numbering, ..counter(heading).at(it.location()))
+      )
       // ナンバリングには空白があるので、その分を補正
       h(measure("  ").width * -1)
     } else {
@@ -128,9 +130,7 @@
       text("")
     }
     v(-12pt)
-
-    [#it.body]
-
+    it.body
     v(15%)
   }
 
@@ -174,7 +174,7 @@
       return
     }
 
-    set text(font: "Hiragino Kaku Gothic ProN", weight: "bold")
+    set text(font: fonts.sans-serif, weight: "bold")
     it
   }
   show outline.entry.where(level: 2): it => {
