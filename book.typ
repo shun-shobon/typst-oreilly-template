@@ -213,7 +213,63 @@
 
 #let begin-document(body) = {
   // 目次
-  outline()
+  show outline.entry.where(level: 1): it => {
+    set text(font: "Hiragino Kaku Gothic ProN", weight: "bold")
+
+    v(2em, weak: true)
+
+    let c = counter(heading).at(it.element.location())
+    if c.at(0) != 0 {
+      numbering("1章", ..c)
+      h(1em)
+    }
+
+    it.element.body
+
+    h(2pt)
+
+    box(width: 1fr, repeat[.])
+
+    h(2pt)
+
+    it.page
+  }
+  show outline.entry.where(level: 2): it => {
+    h(0.4em)
+
+    let c = counter(heading).at(it.element.location())
+    if c.at(0) != 0 {
+      numbering("1.1", ..c)
+      h(1em)
+    }
+
+    it.element.body
+
+    h(2pt)
+    box(width: 1fr, repeat[.])
+    h(2pt)
+    it.page
+  }
+  show outline.entry.where(level: 3): it => {
+    h(3em)
+
+    let c = counter(heading).at(it.element.location())
+    if c.at(0) != 0 {
+      numbering("1.1", ..c)
+      h(1em)
+    }
+
+    it.element.body
+
+    h(2pt)
+    box(width: 1fr, repeat[.])
+    h(2pt)
+    it.page
+  }
+
+  outline(
+    depth: 3,
+  )
 
   // ページ番号をリセット
   set page(numbering: "1")
