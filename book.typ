@@ -120,7 +120,9 @@
 
     // 章番号を表示
     if counter(heading).at(it.location()).at(0) != 0 {
-      text(fill: luma(100))[#numbering("1章", ..counter(heading).at(it.location()))]
+      text(fill: luma(100))[#numbering(heading.numbering, ..counter(heading).at(it.location()))]
+      // ナンバリングには空白があるので、その分を補正
+      h(measure("  ").width * -1)
     } else {
       // ナンバリングがない場合はダミーを入れる
       text("")
@@ -159,6 +161,24 @@
     v(-1em)
   }
 
+  // 目次のスタイル設定
+  show outline.entry.where(level: 1): it => {
+    set text(font: "Hiragino Kaku Gothic ProN", weight: "bold")
+    v(2em, weak: true)
+    it
+  }
+  show outline.entry.where(level: 2): it => {
+    h(0.5em)
+
+    it
+  }
+  show outline.entry.where(level: 3): it => {
+    h(2.8em)
+
+    it
+  }
+  set outline(depth: 3)
+
   // タイトルページ
   {
     set page(header: {})
@@ -183,29 +203,11 @@
   body
 }
 
-#let begin-document(body) = {
+#let document(body) = {
   // 目次
-  show outline.entry.where(level: 1): it => {
-    set text(font: "Hiragino Kaku Gothic ProN", weight: "bold")
-    v(2em, weak: true)
-    it
-  }
-  show outline.entry.where(level: 2): it => {
-    h(0.5em)
+  outline()
 
-    it
-  }
-  show outline.entry.where(level: 3): it => {
-    h(2.8em)
-
-    it
-  }
-
-  outline(
-    depth: 3,
-  )
-
-  // ページ番号をリセット
+  // ページ番号と見出しのナンバリングを変更
   set page(numbering: "1")
   set heading(numbering: (..args) => {
     let nums = args.pos()
@@ -215,7 +217,26 @@
       numbering("1.1.1 ", ..nums)
     }
   })
+
+  // ページ番号をリセット
   counter(page).update(1)
+
+  body
+}
+
+#let appendix(body) = {
+  // 見出しのナンバリングを変更
+  set heading(numbering: (..args) => {
+    let nums = args.pos()
+    if nums.len() == 1 {
+      numbering("付録A  ", ..nums)
+    } else {
+      numbering("A.1.1 ", ..nums)
+    }
+  })
+
+  // 見出し番号をリセット
+  counter(heading).update(0)
 
   body
 }

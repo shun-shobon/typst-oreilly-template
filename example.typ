@@ -25,7 +25,7 @@
 
 #lorem(300)
 
-#show: begin-document
+#show: document
 
 = おっきい見出し
 
@@ -98,3 +98,25 @@ function hello(name: string): string {
 == 見出し5
 
 #roremu(400)
+
+#show: appendix
+
+= 付録だよ
+
+#roremu(100)
+
+== 付録の見出し
+
+#roremu(200)
+
+== 付録の見出し2
+
+#roremu(300)
+
+=== 付録のちっちゃい見出し
+
+#roremu(500)
+
+=== 付録のちっちゃい見出し2
+
+#roremu(800)
