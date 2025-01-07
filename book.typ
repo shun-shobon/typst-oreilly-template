@@ -3,6 +3,7 @@
   title: [],
   subtitle: [],
   author: [],
+  publisher: [],
   fonts: (
     sans-serif: (),
     serif: (),
@@ -174,7 +175,7 @@
       return
     }
 
-    set text(font: fonts.sans-serif, weight: "bold")
+    set text(font: fonts.sans-serif, weight: "bold", size: 10pt)
     it
   }
   show outline.entry.where(level: 2): it => {
@@ -194,17 +195,29 @@
     block(
       width: 100%,
       height: 100%,
-      inset: (y: 10%),
     )[
-      #set text(font: fonts.sans-serif, weight: "bold")
+      #set align(center)
 
-      #set align(center + top)
-      #text(size: 24pt, title)
-      #v(-18pt)
-      #text(size: 18pt, subtitle)
+      #v(50pt)
 
-      #set align(center + bottom)
-      #text(size: 16pt, author)
+      #[
+        #set text(font: fonts.sans-serif, weight: "bold")
+        #set par(leading: 0.5em)
+
+        #text(size: 24pt, title)
+
+        #v(-5pt)
+
+        #text(size: 18pt, subtitle)
+      ]
+
+      #v(40pt)
+
+      #text(size: 10pt, weight: "bold")[#author #h(0.8em) 著]
+
+      #v(1fr)
+
+      #text(size: 12pt, font: fonts.sans-serif, weight: "bold", publisher)
     ]
   }
 

@@ -6,6 +6,7 @@
   title: [タイトル],
   subtitle: [サブタイトル],
   author: [著者名],
+  publisher: [出版社],
   fonts: (
     sans-serif: ("Hiragino Kaku Gothic ProN"),
     serif: ("Hiragino Mincho ProN"),
