@@ -34,6 +34,11 @@
 
 #roremu(100)
 
+#figure(
+  caption: "なんかいい感じの画像",
+  image("example.png"),
+)
+
 #roremu(300)
 
 #roremu(500)
@@ -50,9 +55,19 @@
 
 #roremu(500)
 
+#figure(
+  caption: "なんかいい感じの画像2",
+  image("example.png"),
+)
+
 == 中くらいの見出し
 
 #roremu(200)
+
+#figure(
+  caption: "なんかいい感じの画像(小さい版)",
+  image("example.png", width: 50%),
+)
 
 == すげええええええええええええ長い見出しいいいいいいいいいいいい
 

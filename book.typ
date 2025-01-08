@@ -114,6 +114,10 @@
       pagebreak(to: "odd", weak: true)
     }
 
+    // 図表番号をリセット
+    counter(figure.where(kind: image)).update(0)
+    counter(figure.where(kind: table)).update(0)
+
     // 右寄せにする
     set align(right)
     set text(size: 20pt)
@@ -166,6 +170,12 @@
     par(text(size: 0pt, ""))
     v(-1em)
   }
+
+  // 図表のスタイル設定
+  set figure(numbering: (..num) => context {
+    let current-chapter-num = counter(heading).get().at(0)
+    numbering("1-1", current-chapter-num, ..num)
+  })
 
   // 目次のスタイル設定
   show outline.entry.where(level: 1): it => {
