@@ -92,6 +92,7 @@
     size: 9pt
   )
   show raw: set text(font: fonts.mono)
+  show strong: set text(font: fonts.sans-serif)
 
   // 段落の空白を調整
   set par(
