@@ -155,7 +155,9 @@
     it
   }
 
+  // 目次より前の節・項は目次に表示しない
   show heading.where(level: 2): set heading(outlined: false)
+  show heading.where(level: 3): set heading(outlined: false)
 
   // 見出しの後の段落が字下げされない問題を修正
   // 空の段落を入れる
@@ -242,7 +244,9 @@
     }
   })
 
+  // 目次より後の節・項は目次に表示
   show heading.where(level: 2): set heading(outlined: true)
+  show heading.where(level: 3): set heading(outlined: true)
 
   // ページ番号をリセット
   counter(page).update(1)
