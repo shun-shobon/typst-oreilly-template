@@ -130,10 +130,8 @@
     if counter(heading).at(it.location()).at(0) != 0 {
       text(
         fill: luma(100),
-        numbering(heading.numbering, ..counter(heading).at(it.location()))
+        numbering(heading.numbering, ..counter(heading).at(it.location())).trim()
       )
-      // ナンバリングには空白があるので、その分を補正
-      h(measure("  ").width * -1)
     } else {
       // ナンバリングがない場合はダミーを入れる
       text("")
@@ -220,6 +218,29 @@
   show table.cell.where(y: 0): it => {
     set text(font: fonts.sans-serif, fill: luma(255))
     it
+  }
+
+  // 参照のカスタマイズ
+  show ref: it => {
+    if it.element == none {
+      it
+      return
+    }
+
+    if it.element.func() == figure {
+      // 図表は強調表示する
+      set text(font: fonts.sans-serif, weight: "bold")
+      it
+    } else if it.element.func() == heading and it.element.level == 1 {
+      // 見出しは見出しのナンバリングをそのまま使用
+      set text(font: fonts.sans-serif, weight: "bold")
+      link(
+        it.element.location(),
+        numbering(heading.numbering, ..counter(heading).at(it.element.location())).trim(),
+      )
+    } else {
+      it
+    }
   }
 
   // 見出しや図表の後の段落が字下げされない問題を修正

@@ -28,16 +28,17 @@
 
 #show: document
 
-= おっきい見出し
+= おっきい見出し <chp:1>
 
 *5000兆円欲しい！！！！*
+これは参照のテストです。詳しくは、@img:example と @tab:example をご覧ください。また、@chp:1 にも参照があります。
 
 #roremu(100)
 
 #figure(
   caption: "なんかいい感じの画像",
   rect(image("example.png")),
-)
+) <img:example>
 
 #roremu(300)
 
@@ -75,7 +76,7 @@
       実装は次章で行う。
     ]
   )
-)
+) <tab:example>
 
 #roremu(300)
 
