@@ -43,6 +43,40 @@
 
 #roremu(500)
 
+#figure(
+  caption: [なんかいい感じの表],
+  table(
+    columns: (3fr, 5fr),
+    align: left,
+    table.header([メソッド], [説明]),
+    [`__init__(self, input_size, hidden_size, output_size)`],
+    [
+      初期化を行う。\
+      引数は頭から順に、入力層のニューロンの数、隠れ層のニューロンの数、出力層のニューロンの数。
+    ],
+    [`predict(self, x)`],
+    [
+      認識（推論）を行う。\
+      引数を`x`の画像データ。
+    ],
+    [`loss(self, x, t)`],
+    [
+      損失関数の値を求める。\
+      引数の`x`は画像データ、`t`は正解ラベル（以下の3つのメソッドの引数についても同様）。
+    ],
+    [`accuracy(self, x, t)`],
+    [認識精度を求める。],
+    [`numerical_gradient(self, x, t)`],
+    [重みパラメータに対する勾配を求める。],
+    [`gradient(self, x, t)`],
+    [
+      重みパラメータに対する勾配を求める。
+      `numerical_gradient()`の高速版！\
+      実装は次章で行う。
+    ]
+  )
+)
+
 #roremu(300)
 
 #roremu(200)

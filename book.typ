@@ -178,6 +178,50 @@
     it
   }
 
+  // 表のスタイル設定
+  // 表のキャプションは上
+  show figure.where(kind: table): set figure.caption(position: top)
+  show table: it => {
+    // 表内の文字は少し小さくする
+    set text(size: 8pt)
+    // justifyだとあまりきれいじゃないので無効化
+    set par(justify: false)
+    it
+  }
+  set table(
+    stroke: (x, y) => (
+      // こうすることで一番下のみ線が引かれる
+      top: 0pt,
+      bottom: 0.3pt,
+      // 一番上は白の線、それ以外は普通の線
+      left: if x > 0 {
+        if y == 0 {
+          (thickness: 0.3pt, paint: luma(255))
+        } else {
+          0.3pt
+        }
+      }
+    ),
+    fill: (x, y) => {
+      if y == 0 {
+        // 一番上のヘッダーは濃いグレー
+        luma(120)
+      } else if calc.even(y) {
+        // 偶数行は薄いグレー
+        luma(210)
+      }
+    },
+    inset: (
+      x: 5pt,
+      y: 3pt,
+    )
+  )
+  // 一番上のヘッダーは白文字
+  show table.cell.where(y: 0): it => {
+    set text(font: fonts.sans-serif, fill: luma(255))
+    it
+  }
+
   // 見出しや図表の後の段落が字下げされない問題を修正
   // 空の段落を入れる
   show selector(heading).or(figure): it => {
