@@ -36,7 +36,7 @@
 
 #figure(
   caption: "なんかいい感じの画像",
-  image("example.png"),
+  rect(image("example.png")),
 )
 
 #roremu(300)
@@ -56,8 +56,8 @@
 #roremu(500)
 
 #figure(
-  caption: "なんかいい感じの画像2",
-  image("example.png"),
+  caption: "長いキャプション長いキャプション長いキャプション長いキャプション長いキャプション長いキャプション長いキャプション",
+  rect(image("example.png")),
 )
 
 == 中くらいの見出し
@@ -66,7 +66,7 @@
 
 #figure(
   caption: "なんかいい感じの画像(小さい版)",
-  image("example.png", width: 50%),
+  rect(image("example.png", width: 50%)),
 )
 
 == すげええええええええええええ長い見出しいいいいいいいいいいいい

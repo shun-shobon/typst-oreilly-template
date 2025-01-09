@@ -94,6 +94,9 @@
   show raw: set text(font: fonts.mono)
   show strong: set text(font: fonts.sans-serif)
 
+  // 囲みのデフォルトの太さを調整
+  set rect(stroke: 0.3pt)
+
   // 段落の空白を調整
   set par(
     leading: 0.8em,
@@ -163,19 +166,25 @@
   show heading.where(level: 2): set heading(outlined: false)
   show heading.where(level: 3): set heading(outlined: false)
 
-  // 見出しの後の段落が字下げされない問題を修正
-  // 空の段落を入れる
-  show heading: it => {
-    it
-    par(text(size: 0pt, ""))
-    v(-1em)
-  }
-
   // 図表のスタイル設定
   set figure(numbering: (..num) => context {
     let current-chapter-num = counter(heading).get().at(0)
     numbering("1-1", current-chapter-num, ..num)
   })
+  set figure.caption(separator: h(1em))
+  show figure.caption: it => {
+    set text(font: fonts.sans-serif, size: 8pt)
+    set align(left)
+    it
+  }
+
+  // 見出しや図表の後の段落が字下げされない問題を修正
+  // 空の段落を入れる
+  show selector(heading).or(figure): it => {
+    it
+    par(text(size: 0pt, ""))
+    v(-1em)
+  }
 
   // 目次のスタイル設定
   show outline.entry.where(level: 1): it => {
