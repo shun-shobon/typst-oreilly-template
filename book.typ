@@ -220,6 +220,11 @@
     it
   }
 
+  set math.equation(numbering: (..num) => context {
+    let current-chapter-num = counter(heading).get().at(0)
+    numbering("(1.1)", current-chapter-num, ..num)
+  })
+
   // 参照のカスタマイズ
   show ref: it => {
     if it.element == none {
@@ -233,7 +238,6 @@
       it
     } else if it.element.func() == heading and it.element.level == 1 {
       // 見出しは見出しのナンバリングをそのまま使用
-      set text(font: fonts.sans-serif, weight: "bold")
       link(
         it.element.location(),
         numbering(heading.numbering, ..counter(heading).at(it.element.location())).trim(),

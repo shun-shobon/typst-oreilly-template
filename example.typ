@@ -31,7 +31,7 @@
 = おっきい見出し <chp:1>
 
 *5000兆円欲しい！！！！*
-これは参照のテストです。詳しくは、@img:example と @tab:example をご覧ください。また、@chp:1 にも参照があります。
+これは参照のテストです。詳しくは、@img:example と @tab:example をご覧ください。また、@chp:1 や @eq:example にも参照があります。
 
 #roremu(100)
 
@@ -41,8 +41,6 @@
 ) <img:example>
 
 #roremu(300)
-
-#roremu(500)
 
 #figure(
   caption: [なんかいい感じの表],
@@ -77,6 +75,12 @@
     ]
   )
 ) <tab:example>
+
+#roremu(500)
+
+$
+  x = (-b plus.minus sqrt(b^2 - 4 a c)) / (2a)
+$ <eq:example>
 
 #roremu(300)
 
