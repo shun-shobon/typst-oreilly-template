@@ -42,7 +42,7 @@
               width: 2.5em,
               stroke: (right: (thickness: 1.2pt, cap: "butt")),
               inset: (y: 2pt),
-              text(weight: "bold", font: fonts.mono, numbering(here().page-numbering(), here().page())),
+              text(weight: "bold", font: fonts.sans-serif, numbering(here().page-numbering(), here().page())),
             )
             #box(
               inset: (y: 2pt, left: 0.5em),
@@ -76,7 +76,7 @@
               width: 2.5em,
               stroke: (left: (thickness: 1.2pt, cap: "butt")),
               inset: (y: 2pt),
-              text(weight: "bold", font: fonts.mono, numbering(here().page-numbering(), here().page())),
+              text(weight: "bold", font: fonts.sans-serif, numbering(here().page-numbering(), here().page())),
             )
           ]
         }
