@@ -272,11 +272,11 @@
     it
   }
   show outline.entry.where(level: 2): it => {
-    h(0.5em)
+    h(1em)
     it
   }
   show outline.entry.where(level: 3): it => {
-    h(2.8em)
+    h(3.3em)
     it
   }
   set outline(depth: 3)
