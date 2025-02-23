@@ -167,7 +167,7 @@
   show heading.where(level: 3): set heading(outlined: false)
 
   // 図表のスタイル設定
-  set figure(numbering: (..num) => context {
+  set figure(numbering: (..num) => {
     let current-chapter-num = counter(heading).get().at(0)
     numbering("1-1", current-chapter-num, ..num)
   })
