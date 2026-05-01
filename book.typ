@@ -105,6 +105,14 @@
     first-line-indent: 1em,
   )
 
+  // リストのインデント、上下に空白
+  show list: it => {
+    block(inset: (left: 1em ,y:0.5em))[#it]
+  }
+  show enum: it => {
+    block(inset: (left: 1em ,y:0.5em))[#it]
+  }
+
   // 見出しのナンバリングとフォントを設定
   show heading: set text(font: fonts.sans-serif)
 
@@ -377,4 +385,26 @@
   counter(heading).update(0)
 
   body
+}
+
+#let note(body) = {
+
+  set par(first-line-indent: 0em, leading: 0.4em, spacing: 0.4em,
+  )
+  set text(size: 8pt, fill: luma(30%))
+  box(inset: (x: 1em, y: 0.5em))[
+    #grid(
+      columns: (auto, 1fr),
+      gutter: 1em,
+      box(width: 30pt, height: 30pt)[
+        #place(horizon + center,
+          square(size: 30pt, stroke: (thickness: 0.4pt, paint: luma(30%))))
+        #place(horizon + center, 
+          image("example_animal.png", width: 35pt,
+          ))
+        
+      ],
+      body,
+    )
+  ]
 }

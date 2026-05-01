@@ -155,6 +155,12 @@ function hello(name: string): string {
 
 == 見出し5
 
+#note()[
+  ノートを挿入できます
+
+  #roremu(50)
+]
+
 #roremu(400)
 
 #show: appendix
